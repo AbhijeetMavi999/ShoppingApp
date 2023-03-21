@@ -1,0 +1,35 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  # Routing Configuration
+  cloud:
+    gateway:
+      routes:
+        - id: CUSTOMER-SERVICE
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/customer/**
+
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product/**
+
+        - id: ADMIN-SERVICE
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/admin/**
+
+# Eureka Client Configuration
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    hostname: localhost
