@@ -26,7 +26,7 @@ public class Product {
     @NotEmpty
     private String description;
 
-    @NotNull
+    @NotEmpty
     private Float price;
 
     @NotNull
