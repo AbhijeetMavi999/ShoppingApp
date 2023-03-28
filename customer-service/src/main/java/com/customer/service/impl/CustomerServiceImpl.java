@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,10 +61,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers(Integer pageNumber, Integer pageSize) {
         log.info("getAllCustomers() method of CustomerServiceImpl is called");
 
-        List<Customer> customers = customerRepository.findAll();
+
+        // Implementing pagination
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
+        List<Customer> customers = customerPage.getContent();
+
         if(customers.size() == 0) {
             log.warn("Customers not found");
             throw new CustomerNotFoundException("Customers not found");

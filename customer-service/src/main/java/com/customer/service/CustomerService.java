@@ -12,7 +12,7 @@ public interface CustomerService {
 
     public Customer getCustomerByName(String name);
 
-    public List<Customer> getAllCustomers();
+    public List<Customer> getAllCustomers(Integer pageNumber, Integer pageSize);
 
     public Customer updateCustomer(Long id, Customer customer);
 
