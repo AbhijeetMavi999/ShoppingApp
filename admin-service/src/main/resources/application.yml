@@ -1,24 +1,3 @@
-server:
-  port: 8082
-
-# MySQl Configuration
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/shoppingapp
-    username: root
-    password: password
-  jpa:
-    hibernate:
-      ddl-auto: update
-
-# Eureka client configuration
-  application:
-    name: ADMIN-SERVICE
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    hostname: localhost
+  profiles:
+    active: dev

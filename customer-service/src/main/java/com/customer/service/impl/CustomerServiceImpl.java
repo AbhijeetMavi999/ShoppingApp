@@ -7,6 +7,9 @@ import com.customer.repository.CustomerRepository;
 import com.customer.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
         return registeredCustomer;
     }
 
+    @Cacheable(cacheNames = "customer", key = "#id")
     @Override
     public Customer getCustomerById(Long id) {
         log.info("getCustomerById() method of CustomerServiceImpl is called");
@@ -65,6 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customers;
     }
 
+    @CachePut(cacheNames = "customer", key = "#id")
     @Override
     public Customer updateCustomer(Long id, Customer customer) {
         log.info("updateCustomer() method of CustomerServiceImpl is called");
@@ -80,6 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
         return updatedCustomer;
     }
 
+    @CacheEvict(cacheNames = "customer", key = "#id")
     @Override
     public void deleteCustomerById(Long id) {
         log.info("deleteCustomerById() method of CustomerServiceImpl is called");

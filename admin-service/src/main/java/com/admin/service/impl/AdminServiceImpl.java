@@ -7,6 +7,9 @@ import com.admin.repository.AdminRepository;
 import com.admin.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -28,6 +31,7 @@ public class AdminServiceImpl implements AdminService {
         return savedAdmin;
     }
 
+    @Cacheable(cacheNames = "admin", key = "#id")
     @Override
     public Admin getAdminById(Integer id) {
         log.info("getAdminById() method of AdminServiceImpl is called");
@@ -36,6 +40,7 @@ public class AdminServiceImpl implements AdminService {
         return admin;
     }
 
+    @CachePut(cacheNames = "admin", key = "#id")
     @Override
     public Admin updateAdmin(Integer id, Admin admin) {
         log.info("updateAdmin() method of AdminServiceImpl is called");
@@ -49,6 +54,7 @@ public class AdminServiceImpl implements AdminService {
         return updatedAdmin;
     }
 
+    @CacheEvict(cacheNames = "admin", key = "#id")
     @Override
     public void deleteAdminById(Integer id) {
         log.info("deleteAdminById() method of AdminServiceImpl is called");

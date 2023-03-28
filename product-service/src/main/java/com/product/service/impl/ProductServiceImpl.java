@@ -7,6 +7,9 @@ import com.product.repository.ProductRepository;
 import com.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
         return savedProduct;
     }
 
+    @Cacheable(cacheNames = "product", key = "#id")
     @Override
     public Product getProductById(Long id) {
         log.info("getProductById() method of ProductServiceImpl is called");
@@ -56,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
+    @CachePut(cacheNames = "product", key = "#id")
     @Override
     public Product updateProduct(Long id, Product product) {
         log.info("updateProduct() method of ProductServiceImpl is called");
@@ -72,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
         return updatedProduct;
     }
 
+    @CacheEvict(cacheNames = "product", key = "#id")
     @Override
     public void deleteProductById(Long id) {
         log.info("deleteProductById() method of ProductServiceImpl is called");
