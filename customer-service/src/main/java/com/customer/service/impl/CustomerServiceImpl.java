@@ -3,6 +3,7 @@ package com.customer.service.impl;
 import com.customer.entity.Customer;
 import com.customer.exception.CustomerAlreadyExistException;
 import com.customer.exception.CustomerNotFoundException;
+import com.customer.payloads.CustomerResponse;
 import com.customer.repository.CustomerRepository;
 import com.customer.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomers(Integer pageNumber, Integer pageSize) {
+    public CustomerResponse getAllCustomers(Integer pageNumber, Integer pageSize) {
         log.info("getAllCustomers() method of CustomerServiceImpl is called");
 
 
@@ -75,7 +76,16 @@ public class CustomerServiceImpl implements CustomerService {
             log.warn("Customers not found");
             throw new CustomerNotFoundException("Customers not found");
         }
-        return customers;
+
+        CustomerResponse customerResponse = new CustomerResponse();
+        customerResponse.setContent(customers);
+        customerResponse.setPageNumber(customerPage.getNumber());
+        customerResponse.setPageSize(customerPage.getSize());
+        customerResponse.setTotalRecords(customerPage.getTotalElements());
+        customerResponse.setTotalPages(customerPage.getTotalPages());
+        customerResponse.setIsLastPage(customerPage.isLast());
+
+        return customerResponse;
     }
 
     @CachePut(cacheNames = "customer", key = "#id")

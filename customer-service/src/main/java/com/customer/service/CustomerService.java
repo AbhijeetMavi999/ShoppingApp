@@ -1,6 +1,7 @@
 package com.customer.service;
 
 import com.customer.entity.Customer;
+import com.customer.payloads.CustomerResponse;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface CustomerService {
 
     public Customer getCustomerByName(String name);
 
-    public List<Customer> getAllCustomers(Integer pageNumber, Integer pageSize);
+    public CustomerResponse getAllCustomers(Integer pageNumber, Integer pageSize);
 
     public Customer updateCustomer(Long id, Customer customer);
 

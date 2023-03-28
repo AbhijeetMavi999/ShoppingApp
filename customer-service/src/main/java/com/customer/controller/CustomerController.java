@@ -1,12 +1,11 @@
 package com.customer.controller;
 
 import com.customer.entity.Customer;
+import com.customer.payloads.CustomerResponse;
 import com.customer.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -48,13 +47,13 @@ public class CustomerController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllCustomers(
+    public ResponseEntity<CustomerResponse> getAllCustomers(
             @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSze
     ) {
         log.info("getAllCustomers() method of CustomerController is called");
 
-        List<Customer> customers = customerService.getAllCustomers(pageNumber, pageSze);
+        CustomerResponse customers = customerService.getAllCustomers(pageNumber, pageSze);
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
