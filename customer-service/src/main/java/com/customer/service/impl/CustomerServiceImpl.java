@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Customer registerCustomer(Customer customer) {
         log.info("registerCustomer() method of CustomerServiceImpl is called");
@@ -89,6 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @CachePut(cacheNames = "customer", key = "#id")
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Customer updateCustomer(Long id, Customer customer) {
         log.info("updateCustomer() method of CustomerServiceImpl is called");
@@ -105,6 +109,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @CacheEvict(cacheNames = "customer", key = "#id")
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteCustomerById(Long id) {
         log.info("deleteCustomerById() method of CustomerServiceImpl is called");

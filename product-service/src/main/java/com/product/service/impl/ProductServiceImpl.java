@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Product saveProduct(Product product) {
         log.info("saveProduct() method of ProductServiceImpl is called");
@@ -61,6 +64,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @CachePut(cacheNames = "product", key = "#id")
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Product updateProduct(Long id, Product product) {
         log.info("updateProduct() method of ProductServiceImpl is called");
@@ -78,6 +82,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @CacheEvict(cacheNames = "product", key = "#id")
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteProductById(Long id) {
         log.info("deleteProductById() method of ProductServiceImpl is called");

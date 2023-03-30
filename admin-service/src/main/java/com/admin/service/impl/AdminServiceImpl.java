@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -19,6 +21,7 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Admin saveAdmin(Admin admin) {
         log.info("saveAdmin() method of AdminServiceImpl is called");
@@ -41,6 +44,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @CachePut(cacheNames = "admin", key = "#id")
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Admin updateAdmin(Integer id, Admin admin) {
         log.info("updateAdmin() method of AdminServiceImpl is called");
@@ -55,10 +59,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @CacheEvict(cacheNames = "admin", key = "#id")
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteAdminById(Integer id) {
         log.info("deleteAdminById() method of AdminServiceImpl is called");
         adminRepository.findById(id).orElseThrow(() -> new AdminNotFoundException("admin not found by id: "+id));
         adminRepository.deleteById(id);
+
+//        throw new ArithmeticException();
     }
 }
