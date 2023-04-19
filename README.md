@@ -11,6 +11,7 @@ This project is developed with Spring Boot version 3.0.0 and Maven build tool.
 * Caching implemented for faster response.
 * Used different environment for development, production, etc.
 * Implement Spring framework pagination.
+* Implemented sending email features in the application using Gmail SMTP
 
 # Requirements
 * JDK 17
